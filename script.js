@@ -180,12 +180,16 @@ function abrirPaginaDetalle(id) {
                     img.style.transform = "rotateY(" + rot + "deg)";
                 };
 
+                // Eventos de Mouse (PC)
                 box.addEventListener('mousemove', (e) => moveRotate(e.clientX));
-                box.addEventListener('touchmove', (e) => moveRotate(e.touches[0].clientX));
+                box.addEventListener('mouseleave', () => img.style.transform = "rotateY(0deg)");
+
+                // Eventos de Touch (Celular) - CORREGIDO
+                box.addEventListener('touchmove', (e) => {
+                    moveRotate(e.touches[0].clientX);
+                });
+                box.addEventListener('touchend', () => img.style.transform = "rotateY(0deg)");
                 
-                const reset = () => img.style.transform = "rotateY(0deg)";
-                box.addEventListener('mouseleave', reset);
-                box.addEventListener('touchend', reset);
             </script>
         </body></html>
     `);
@@ -251,6 +255,12 @@ function enviarCodigo() {
         document.getElementById('paso1').style.display = "none";
         document.getElementById('paso2').style.display = "block";
     });
+}
+
+// FUNCIÓN REGRESAR AL PASO 1 (BOTÓN CANCELAR) - AGREGADA
+function regresarAPaso1() {
+    document.getElementById('paso2').style.display = "none";
+    document.getElementById('paso1').style.display = "block";
 }
 
 function finalizarCompra() {
