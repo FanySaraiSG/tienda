@@ -33,9 +33,14 @@
             <div id="paso1"></div>
             <div id="paso2" style="display:none;">
                 <h3 style="letter-spacing:2px;">VERIFICACIÓN</h3>
-                <p style="font-size:12px; color:#7f8c8d;">Ingrese el código enviado a su correo</p>
-                <input type="number" id="inputCodigo" placeholder="0000" class="vivid-input" style="text-align:center; font-size:20px;">
+                <p style="font-size:11px; color:#7f8c8d;">Ingrese el código enviado a su correo</p>
+                <input type="number" id="inputCodigo" placeholder="0000" class="vivid-input" style="text-align:center; font-size:24px; letter-spacing:5px;">
                 <button onclick="finalizarCompra()" class="btn-solicitar">CONFIRMAR PEDIDO</button>
+                <p onclick="regresarAPaso1()" style="font-size:11px; text-decoration:underline; cursor:pointer; margin-top:15px; color:#bdc3c7;">CANCELAR Y REGRESAR</p>
+            </div>
+            <div id="pasoTicket" style="display:none;">
+                <div id="ticketContenido"></div>
+                <button onclick="location.reload()" class="btn-solicitar" style="margin-top:20px;">VOLVER A LA TIENDA</button>
             </div>
             <button class="close-modal" onclick="document.getElementById('modalPago').style.display='none'">&times;</button>
         </div>
