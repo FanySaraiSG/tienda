@@ -78,56 +78,59 @@ productos.forEach(p => {
         </article>`;
 });
 
-// VENTANA DE DETALLE (CON TABLA DE TALLAS GRANDE)
+// DETALLE CON SOPORTE TÁCTIL Y TABLA GRANDE
 function abrirPaginaDetalle(id) {
     const p = productos.find(x => x.id === id);
     const v = window.open("", "_blank");
     const tBtns = p.tallas.map(t => `<button class="t-btn" onclick="sel(this,'${t}')">${t}</button>`).join("");
 
     let tablaHTML = (p.tipo === "ropa" || p.tipo === "calzado") ? `
-        <div style="margin-top:30px; border:2px solid #000; padding:20px; border-radius:8px; background:#fcfcfc;">
-            <b style="letter-spacing:2px; font-size:14px; display:block; margin-bottom:15px; text-align:center; text-decoration:underline;">GUÍA DE MEDIDAS OFICIAL</b>
-            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <div style="margin-top:30px; border:2px solid #000; padding:25px; border-radius:10px; background:#fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <b style="letter-spacing:3px; font-size:16px; display:block; margin-bottom:20px; text-align:center; color:#000;">CUADRO DE TALLAS PROFESIONAL</b>
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
                 <tr style="background:#000; color:#fff;">
-                    <th style="padding:10px; border:1px solid #000;">TALLA</th>
-                    <th style="padding:10px; border:1px solid #000;">PECHO/ANCHO</th>
-                    <th style="padding:10px; border:1px solid #000;">LARGO TOTAL</th>
+                    <th style="padding:12px; border:1px solid #000;">TALLA</th>
+                    <th style="padding:12px; border:1px solid #000;">TORSO (CM)</th>
+                    <th style="padding:12px; border:1px solid #000;">LARGO (CM)</th>
                 </tr>
                 <tr style="text-align:center;">
-                    <td style="padding:10px; border:1px solid #ddd;">S / 23</td>
-                    <td style="padding:10px; border:1px solid #ddd;">95 cm</td>
-                    <td style="padding:10px; border:1px solid #ddd;">68 cm</td>
+                    <td style="padding:12px; border:1px solid #eee;">S / 23</td>
+                    <td style="padding:12px; border:1px solid #eee;">90-95</td>
+                    <td style="padding:12px; border:1px solid #eee;">65-68</td>
                 </tr>
                 <tr style="text-align:center; background:#f9f9f9;">
-                    <td style="padding:10px; border:1px solid #ddd;">M / 24</td>
-                    <td style="padding:10px; border:1px solid #ddd;">102 cm</td>
-                    <td style="padding:10px; border:1px solid #ddd;">70 cm</td>
+                    <td style="padding:12px; border:1px solid #eee;">M / 24</td>
+                    <td style="padding:12px; border:1px solid #eee;">98-105</td>
+                    <td style="padding:12px; border:1px solid #eee;">69-72</td>
                 </tr>
                 <tr style="text-align:center;">
-                    <td style="padding:10px; border:1px solid #ddd;">L / 25</td>
-                    <td style="padding:10px; border:1px solid #ddd;">110 cm</td>
-                    <td style="padding:10px; border:1px solid #ddd;">72 cm</td>
+                    <td style="padding:12px; border:1px solid #eee;">L / 25</td>
+                    <td style="padding:12px; border:1px solid #eee;">108-115</td>
+                    <td style="padding:12px; border:1px solid #eee;">73-76</td>
                 </tr>
             </table>
-            <p style="font-size:10px; color:#888; margin-top:10px; text-align:center;">* Medidas tomadas en superficie plana. Margen de error +/- 1cm.</p>
+            <p style="font-size:11px; color:#999; margin-top:12px; text-align:center; font-style:italic;">* Corte ajustado a la medida de la colección 2026.</p>
         </div>` : "";
 
     v.document.write(`
         <html>
         <head>
-            <title>${p.nombre} | The Look Lab</title>
+            <title>${p.nombre}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
-                body { font-family: 'Helvetica', sans-serif; padding: 40px; display: flex; justify-content: center; background:#fff; color:#333; }
-                .close-btn { position: fixed; top: 20px; right: 30px; font-size: 50px; cursor: pointer; color: #ddd; transition: 0.3s; }
-                .close-btn:hover { color: #000; }
-                .detail-wrap { display: flex; gap: 60px; max-width: 1200px; margin-top: 40px; align-items: flex-start; }
-                #imgBox { width: 500px; height: 650px; background:#f9f9f9; overflow:hidden; perspective: 1000px; border: 1px solid #eee; }
-                #mI { width: 100%; height: 100%; object-fit: contain; transition: transform 0.1s; }
-                .t-btn { border:1px solid #ddd; background:#fff; padding:15px; cursor:pointer; margin-right:10px; min-width:55px; font-weight:bold; }
+                body { font-family: sans-serif; padding: 20px; background:#fff; color:#333; margin:0; overflow-x:hidden; }
+                .close-btn { position: fixed; top: 15px; right: 25px; font-size: 50px; cursor: pointer; color: #ccc; z-index:100; }
+                .detail-wrap { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 50px auto; }
+                #imgBox { width: 100%; max-width: 480px; height: 550px; background:#f9f9f9; overflow:hidden; perspective: 1000px; touch-action: none; }
+                #mI { width: 100%; height: 100%; object-fit: contain; transition: transform 0.1s; pointer-events: none; }
+                .t-btn { border:1px solid #ddd; background:#fff; padding:15px; cursor:pointer; margin:5px; min-width:60px; font-weight:bold; }
                 .t-btn.active { background:#000; color:#fff; border-color:#000; }
-                .buy-btn { background:#000; color:#fff; border:none; width:100%; padding:25px; cursor:pointer; font-weight:bold; letter-spacing:3px; margin-top:30px; font-size:16px; }
-                .thumb { border:1px solid #eee; cursor:pointer; opacity:0.6; transition:0.3s; }
-                .thumb:hover { opacity:1; border-color:#000; }
+                .buy-btn { background:#000; color:#fff; border:none; width:100%; padding:22px; cursor:pointer; font-weight:bold; letter-spacing:2px; margin-top:25px; font-size:16px; }
+                .thumb { border:1px solid #eee; cursor:pointer; margin: 0 5px; }
+                @media (min-width: 900px) {
+                    .detail-wrap { flex-direction: row; align-items: flex-start; gap: 60px; padding: 0 40px; }
+                    #imgBox { height: 650px; }
+                }
             </style>
         </head>
         <body>
@@ -135,54 +138,60 @@ function abrirPaginaDetalle(id) {
             <div class="detail-wrap">
                 <div>
                     <div id="imgBox"><img src="${p.imgFrente}" id="mI"></div>
-                    <div style="display:flex; gap:15px; margin-top:20px; justify-content:center;">
-                        <img src="${p.imgFrente}" width="80" class="thumb" onclick="document.getElementById('mI').src=this.src">
-                        <img src="${p.imgAtras}" width="80" class="thumb" onclick="document.getElementById('mI').src=this.src">
+                    <div style="display:flex; margin-top:20px; justify-content:center;">
+                        <img src="${p.imgFrente}" width="75" class="thumb" onclick="document.getElementById('mI').src=this.src">
+                        <img src="${p.imgAtras}" width="75" class="thumb" onclick="document.getElementById('mI').src=this.src">
                     </div>
                 </div>
-                <div style="max-width:500px">
-                    <p style="font-size:12px; letter-spacing:4px; color:#bbb; margin:0;">WINTER ATELIER 26</p>
-                    <h1 style="font-family:serif; font-size:40px; margin:10px 0;">${p.nombre}</h1>
-                    <p style="font-size:28px; color:#000; margin-bottom:25px;">$${p.precio} MXN</p>
-                    <p style="line-height:1.8; color:#555; font-size:15px; text-align:justify;">${p.desc}</p>
+                <div style="max-width:500px; width:100%;">
+                    <h1 style="font-family:serif; font-size:36px; margin-bottom:10px;">${p.nombre}</h1>
+                    <p style="font-size:26px; color:#000; margin-bottom:20px;">$${p.precio} MXN</p>
+                    <p style="line-height:1.7; color:#555; text-align:justify;">${p.desc}</p>
                     
-                    <p style="font-size:12px; font-weight:bold; margin-top:30px; letter-spacing:1px;">SELECCIONAR TALLA</p>
-                    <div style="margin-bottom:25px;">${tBtns}</div>
+                    <p style="font-size:12px; font-weight:bold; margin-top:30px;">TALLA</p>
+                    <div>${tBtns}</div>
 
                     <p style="font-size:12px; font-weight:bold; margin-top:20px;">CANTIDAD</p>
-                    <input type="number" id="qty" value="1" min="1" style="padding:12px; width:70px; border:1px solid #000; font-size:16px;">
+                    <input type="number" id="qty" value="1" min="1" style="padding:12px; width:65px; border:1px solid #000;">
 
                     ${tablaHTML}
 
                     <button class="buy-btn" onclick="add()">AÑADIR A LA BOLSA</button>
-                    <div style="margin-top:20px; display:flex; gap:10px; align-items:center; color:#27ae60; font-size:13px;">
-                        <span>🛡️</span> <b>Compra Protegida:</b> Devoluciones sin costo durante 30 días.
-                    </div>
+                    <p style="text-align:center; font-size:11px; color:green; margin-top:15px;">🔒 Transacción Encriptada y Garantizada</p>
                 </div>
             </div>
             <script>
                 let st = "";
+                const box = document.getElementById('imgBox');
+                const img = document.getElementById('mI');
+
                 function sel(b,t){ document.querySelectorAll('.t-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); st=t; }
                 function add(){ 
                     const q = document.getElementById('qty').value;
-                    if(!st) return alert("Por favor selecciona una talla para continuar.");
+                    if(!st) return alert("Por favor selecciona una talla.");
                     window.opener.agregarAlCarrito(${p.id}, st, parseInt(q));
                     window.close();
                 }
-                const box = document.getElementById('imgBox');
-                const img = document.getElementById('mI');
-                box.onmousemove = (e) => {
-                    const r = box.getBoundingClientRect();
-                    const rot = (((e.clientX - r.left) / box.clientWidth) - 0.5) * 80;
+
+                // LÓGICA DE MOVIMIENTO (MOUSE Y TOUCH)
+                const moveRotate = (posX) => {
+                    const rect = box.getBoundingClientRect();
+                    const rot = (((posX - rect.left) / box.clientWidth) - 0.5) * 80;
                     img.style.transform = "rotateY(" + rot + "deg)";
                 };
-                box.onmouseleave = () => img.style.transform = "rotateY(0deg)";
+
+                box.addEventListener('mousemove', (e) => moveRotate(e.clientX));
+                box.addEventListener('touchmove', (e) => moveRotate(e.touches[0].clientX));
+                
+                const reset = () => img.style.transform = "rotateY(0deg)";
+                box.addEventListener('mouseleave', reset);
+                box.addEventListener('touchend', reset);
             </script>
         </body></html>
     `);
 }
 
-// CARRITO
+// CARRITO Y PAGO (4 MÉTODOS)
 function agregarAlCarrito(id, talla, cantidad) {
     const pBase = productos.find(x => x.id === id);
     carrito.push({ ...pBase, tallaElegida: talla, cantidad: cantidad, subtotal: pBase.precio * cantidad });
@@ -195,30 +204,21 @@ function actualizarUI() {
     const total = carrito.reduce((s, i) => s + i.subtotal, 0);
     const side = document.getElementById('sideCart');
     side.innerHTML = `
-        <div style="padding:30px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
-            <b style="letter-spacing:2px;">BOLSA (${carrito.length})</b> <span onclick="toggleCarrito()" style="cursor:pointer; font-size:25px;">&times;</span>
+        <div style="padding:25px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <b>BOLSA (${carrito.length})</b> <span onclick="toggleCarrito()" style="cursor:pointer; font-size:25px;">&times;</span>
         </div>
-        <div style="padding:25px; flex-grow:1; overflow-y:auto;">
-            ${carrito.map(i => `
-                <div style="margin-bottom:20px; border-bottom:1px solid #f9f9f9; padding-bottom:15px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                        <b>${i.nombre}</b>
-                        <b>$${i.subtotal}</b>
-                    </div>
-                    <div style="font-size:12px; color:#888;">Cant: ${i.cantidad} | Talla: ${i.tallaElegida}</div>
-                </div>
-            `).join("")}
+        <div style="padding:20px; flex-grow:1; overflow-y:auto;">
+            ${carrito.map(i => `<div style="margin-bottom:15px; font-size:12px;"><b>${i.nombre}</b> (x${i.cantidad}) - Talla: ${i.tallaElegida}<br>$${i.subtotal}</div>`).join("")}
         </div>
-        <div style="padding:30px; border-top:1px solid #eee; background:#fafafa;">
-            <p style="display:flex; justify-content:space-between; font-size:18px; margin-bottom:20px;"><span>TOTAL</span><b>$${total} MXN</b></p>
-            <button onclick="abrirVerificacion()" style="width:100%; background:#000; color:#fff; padding:20px; border:none; cursor:pointer; font-weight:bold; letter-spacing:2px;">CONTINUAR AL PAGO</button>
+        <div style="padding:25px; border-top:1px solid #eee;">
+            <p style="display:flex; justify-content:space-between;"><span>TOTAL</span><b>$${total} MXN</b></p>
+            <button onclick="abrirVerificacion()" style="width:100%; background:#000; color:#fff; padding:18px; border:none; cursor:pointer; font-weight:bold;">CHECKOUT</button>
         </div>
     `;
 }
 
 function toggleCarrito() { document.getElementById('sideCart').classList.toggle('active'); }
 
-// PASARELA DE PAGO CON 4 MÉTODOS
 function seleccionarMetodo(el, met) {
     document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
     el.classList.add('selected');
@@ -228,72 +228,64 @@ function seleccionarMetodo(el, met) {
 function abrirVerificacion() {
     const p1 = document.getElementById('paso1');
     p1.innerHTML = `
-        <h2 style="font-family:serif; letter-spacing:3px;">MÉTODO DE PAGO</h2>
-        <input type="email" id="uE" placeholder="TU CORREO ELECTRÓNICO" class="vivid-input">
+        <h2 style="font-family:serif;">PAGO</h2>
+        <input type="email" id="uE" placeholder="CORREO@EJEMPLO.COM" class="vivid-input">
         <div class="payment-grid">
-            <div class="pay-method" onclick="seleccionarMetodo(this,'Tarjeta')"><span>💳</span><span>Tarjeta</span></div>
-            <div class="pay-method" onclick="seleccionarMetodo(this,'PayPal')"><span>🔵</span><span>PayPal</span></div>
-            <div class="pay-method" onclick="seleccionarMetodo(this,'OXXO')"><span>🏪</span><span>OXXO Pay</span></div>
-            <div class="pay-method" onclick="seleccionarMetodo(this,'SPEI')"><span>🏦</span><span>SPEI</span></div>
+            <div class="pay-method" onclick="seleccionarMetodo(this,'Tarjeta')">💳 Tarjeta</div>
+            <div class="pay-method" onclick="seleccionarMetodo(this,'PayPal')">🔵 PayPal</div>
+            <div class="pay-method" onclick="seleccionarMetodo(this,'OXXO')">🏪 OXXO</div>
+            <div class="pay-method" onclick="seleccionarMetodo(this,'SPEI')">🏦 SPEI</div>
         </div>
-        <button onclick="enviarCodigo()" class="btn-solicitar">ENVIAR CÓDIGO DE SEGURIDAD</button>
+        <button onclick="enviarCodigo()" class="btn-solicitar">SOLICITAR CÓDIGO</button>
     `;
     document.getElementById('modalPago').style.display = "flex";
 }
 
 function enviarCodigo() {
     const email = document.getElementById('uE').value;
-    if(!email || !metodoSeleccionado) return alert("Por favor completa tu correo y selecciona un método de pago.");
+    if(!email || !metodoSeleccionado) return alert("Completa los datos.");
     codGen = Math.floor(1000 + Math.random() * 9000);
     emailjs.send("service_x64il4c", "template_lpaue55", { email: email, codigo_verificacion: codGen, metodo: metodoSeleccionado })
     .then(() => {
-        alert("Código de verificación enviado exitosamente.");
+        alert("Código enviado.");
         document.getElementById('paso1').style.display = "none";
         document.getElementById('paso2').style.display = "block";
     });
 }
 
-// FINALIZACIÓN Y TICKET DETALLADO
 function finalizarCompra() {
     if(document.getElementById('inputCodigo').value == codGen) {
         const total = carrito.reduce((s,i)=>s+i.subtotal,0);
-        const listaFinal = carrito.map(i => `${i.nombre} (Cant: ${i.cantidad}, Talla: ${i.tallaElegida})`).join(", ");
-        
         const orden = { 
-            id: Math.floor(Math.random()*900000), 
+            id: Math.floor(Math.random()*90000), 
             total: total, 
             metodo: metodoSeleccionado,
-            items: listaFinal,
+            items: carrito.map(i => `${i.nombre} (x${i.cantidad}, Talla: ${i.tallaElegida})`).join(", "),
             fecha: new Date().toLocaleDateString()
         };
-        
         let hist = JSON.parse(localStorage.getItem('L_Hist')) || [];
         hist.push(orden);
         localStorage.setItem('L_Hist', JSON.stringify(hist));
-
         generarTicket(orden);
-    } else { alert("Código de verificación incorrecto."); }
+    } else { alert("Código incorrecto."); }
 }
 
 function generarTicket(orden) {
     const entrega = new Date();
     entrega.setDate(entrega.getDate() + 7);
-    const fechaLlegada = entrega.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const fechaLlegada = entrega.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
 
     document.getElementById('ticketContenido').innerHTML = `
-        <div style="border:2px solid #000; padding:25px; font-family:monospace; background:#fff; font-size:13px; line-height:1.6;">
-            <center><b>*** TICKET DE COMPRA ***</b><br><b>THE LOOK LAB | ATELIER</b></center><br>
+        <div style="border:1px dashed #000; padding:20px; font-family:monospace; background:#fff;">
+            <center><b>THE LOOK LAB | TICKET</b></center><br>
             FOLIO: #${orden.id}<br>
-            FECHA DE TRANSACCIÓN: ${orden.fecha}<br>
-            MÉTODO DE PAGO: ${orden.metodo}<br>
-            <hr style="border:1px dashed #000;">
-            DETALLE:<br>${orden.items}<br>
-            <hr style="border:1px dashed #000;">
-            <b>TOTAL PAGADO: $${orden.total} MXN</b>
-            <div style="background:#000; color:#fff; padding:15px; margin-top:25px; text-align:center; font-family:sans-serif; border-radius:5px;">
-                🚚 ESTIMADO DE ARRIBO:<br><b style="font-size:14px;">${fechaLlegada.toUpperCase()}</b>
+            PAGO: ${orden.metodo}<br>
+            RESUMEN: ${orden.items}<br>
+            <hr>
+            <b>TOTAL: $${orden.total} MXN</b>
+            <div style="background:#f4f7f9; padding:15px; margin-top:15px; text-align:center; font-family:sans-serif;">
+                🚚 ENTREGA ESTIMADA:<br><b>${fechaLlegada.toUpperCase()}</b>
             </div>
-            <p style="text-align:center; font-size:10px; margin-top:10px;">Gracias por ser parte de la exclusiva colección Atelier.</p>
         </div>
     `;
     document.getElementById('paso2').style.display = "none";
@@ -307,17 +299,11 @@ function toggleHistorial() {
     if(h.style.display === "none") {
         const ped = JSON.parse(localStorage.getItem('L_Hist')) || [];
         document.getElementById('contenedorPedidos').innerHTML = ped.reverse().map(p => `
-            <div style="border:1px solid #eee; padding:20px; margin-bottom:15px; border-radius:8px; background:#fff;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <b style="color:#000; font-size:14px;">PEDIDO #${p.id}</b>
-                    <span style="color:#888; font-size:12px;">${p.fecha}</span>
-                </div>
-                <div style="color:#555; font-size:13px; margin-bottom:10px;">${p.items}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-size:11px; background:#f0f0f0; padding:4px 8px; border-radius:3px;">${p.metodo}</span>
-                    <b style="font-size:15px;">$${p.total} MXN</b>
-                </div>
-            </div>`).join("") || "<p style='text-align:center; color:#999;'>Aún no has realizado ninguna compra.</p>";
+            <div style="border-bottom:1px solid #eee; padding:15px 0;">
+                <b>PEDIDO #${p.id}</b> - ${p.fecha}<br>
+                Items: ${p.items}<br>
+                Total: <b>$${p.total} MXN</b>
+            </div>`).join("") || "Sin pedidos.";
         h.style.display = "block";
     } else { h.style.display = "none"; }
 }
