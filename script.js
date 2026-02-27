@@ -173,29 +173,24 @@ function abrirPaginaDetalle(id) {
                     window.close();
                 }
 
-                // LÓGICA DE MOVIMIENTO (MOUSE Y TOUCH)
                 const moveRotate = (posX) => {
                     const rect = box.getBoundingClientRect();
                     const rot = (((posX - rect.left) / box.clientWidth) - 0.5) * 80;
                     img.style.transform = "rotateY(" + rot + "deg)";
                 };
 
-                // Eventos de Mouse (PC)
                 box.addEventListener('mousemove', (e) => moveRotate(e.clientX));
                 box.addEventListener('mouseleave', () => img.style.transform = "rotateY(0deg)");
-
-                // Eventos de Touch (Celular) - CORREGIDO
                 box.addEventListener('touchmove', (e) => {
                     moveRotate(e.touches[0].clientX);
                 });
                 box.addEventListener('touchend', () => img.style.transform = "rotateY(0deg)");
-                
             </script>
         </body></html>
     `);
 }
 
-// CARRITO Y PAGO (4 MÉTODOS)
+// CARRITO Y PAGO
 function agregarAlCarrito(id, talla, cantidad) {
     const pBase = productos.find(x => x.id === id);
     carrito.push({ ...pBase, tallaElegida: talla, cantidad: cantidad, subtotal: pBase.precio * cantidad });
@@ -257,7 +252,6 @@ function enviarCodigo() {
     });
 }
 
-// FUNCIÓN REGRESAR AL PASO 1 (BOTÓN CANCELAR) - AGREGADA
 function regresarAPaso1() {
     document.getElementById('paso2').style.display = "none";
     document.getElementById('paso1').style.display = "block";
@@ -266,25 +260,40 @@ function regresarAPaso1() {
 function finalizarCompra() {
     if(document.getElementById('inputCodigo').value == codGen) {
         const total = carrito.reduce((s,i)=>s+i.subtotal,0);
+        const emailUsuario = document.getElementById('uE').value;
+        const entrega = new Date();
+        entrega.setDate(entrega.getDate() + 7);
+        const fechaEntregaStr = entrega.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase();
+
         const orden = { 
             id: Math.floor(Math.random()*90000), 
             total: total, 
             metodo: metodoSeleccionado,
             items: carrito.map(i => `${i.nombre} (x${i.cantidad}, Talla: ${i.tallaElegida})`).join(", "),
-            fecha: new Date().toLocaleDateString()
+            fecha: new Date().toLocaleDateString(),
+            fecha_entrega: fechaEntregaStr
         };
+
+        // ENVÍO A EMAILJS
+        emailjs.send("service_x64il4c", "template_f8zqwwv", {
+            email: emailUsuario,
+            order_id: orden.id,
+            total: orden.total,
+            items: orden.items,
+            metodo: orden.metodo,
+            fecha: orden.fecha,
+            fecha_entrega: orden.fecha_entrega
+        });
+
         let hist = JSON.parse(localStorage.getItem('L_Hist')) || [];
         hist.push(orden);
         localStorage.setItem('L_Hist', JSON.stringify(hist));
+        
         generarTicket(orden);
     } else { alert("Código incorrecto."); }
 }
 
 function generarTicket(orden) {
-    const entrega = new Date();
-    entrega.setDate(entrega.getDate() + 7);
-    const fechaLlegada = entrega.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
-
     document.getElementById('ticketContenido').innerHTML = `
         <div style="border:1px dashed #000; padding:20px; font-family:monospace; background:#fff;">
             <center><b>THE LOOK LAB | TICKET</b></center><br>
@@ -293,8 +302,11 @@ function generarTicket(orden) {
             RESUMEN: ${orden.items}<br>
             <hr>
             <b>TOTAL: $${orden.total} MXN</b>
-            <div style="background:#f4f7f9; padding:15px; margin-top:15px; text-align:center; font-family:sans-serif;">
-                🚚 ENTREGA ESTIMADA:<br><b>${fechaLlegada.toUpperCase()}</b>
+            <div style="text-align:center; margin-top:15px;">
+                <img src="https://i.ibb.co/p6wnbwkQ/images.jpg" style="width:130px; border-radius:10px;">
+                <p style="background:#f4f7f9; padding:10px; font-family:sans-serif; font-size:12px;">
+                   🚚 ENTREGA ESTIMADA:<br><b>${orden.fecha_entrega}</b>
+                </p>
             </div>
         </div>
     `;
