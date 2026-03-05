@@ -60,9 +60,20 @@ const productos = [
         imgFrente: "assets/i10_frente.png", imgAtras: "assets/i10_atras.png", 
         tallas: ["Mini"], 
         desc: "Pequeño en tamaño, grande en protección. El Paraguas Pocket Lab cuenta con una estructura reforzada de fibra de carbono que resiste vientos fuertes sin doblarse. Su tela con recubrimiento de teflón repele el agua instantáneamente, permitiendo guardarlo casi seco después de su uso. Un prodigio de la ingeniería portátil diseñado para el estilo de vida dinámico del laboratorio." 
+    },
+    { 
+        id: 11, tipo: "ropa", nombre: "Poncho colorado", precio: 520, 
+        imgFrente: "assets/i11_frente.png", imgAtras: "assets/i11_atras.png", 
+        tallas: ["CH-M", "G-XG"], 
+        desc:"Poncho artesanal de inspiración andina con diseño geométrico en tonos tierra y azul turquesa. Confeccionado en tejido premium cálido y resistente, destaca por su caída elegante y acabados en flecos trenzados a mano. Es la prenda ideal para quienes buscan un estilo rústico, exclusivo y sofisticado que garantiza confort y distinción en cualquier ocasión." 
+    },
+    { 
+        id: 12, tipo: "ropa", nombre: "Sudadera Gatos en Enredo", precio: 520, 
+        imgFrente: "assets/i12_frente.png", imgAtras: "assets/i12_atras.png", 
+        tallas: ["CH-M", "G-XG"], 
+        desc:"Sudadera de algodon organico con estampado de gatos enredados en tonos pastel. Confeccionada con materiales sostenibles, esta prenda ofrece comodidad y estilo unico. Su diseño divertido yoriginal la convierte en una pieza imprescindible para los amantes de los gatos yla moda consciente, perfecta para un look casual y desenfadado." 
     }
 ];
-
 let carrito = [];
 let codGen = null;
 let metodoSeleccionado = "";
